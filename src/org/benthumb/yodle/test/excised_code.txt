@@ -1,0 +1,78 @@
+		for(int[] thing : scores){
+			// first iteration through ... OK ... fine but also have to keep track of where we
+			// are so we can take up where we left off ...
+			//			if(cntr == 0 || thing[i] == prevThing[i]){
+			//				// make assignment
+			//				System.out.println("Got current thing: " + thing[i] + " ");
+			//				if(prevThing != null){
+			//					System.out.println("Got previous thing: " + prevThing[i] + " ");
+			//				}
+			//				//i++;
+			//				System.out.print(thing[j]);
+			//				System.out.println("");
+			//
+			//				System.out.println("Counter at: " + cntr);
+			//			}
+			//			else if(nxt < scores.length){
+			//				System.out.println("======================================");
+			//				System.out.println("Current value: " + scores[cntr][i]);
+			//				System.out.println("Next value: " + scores[nxt][i]);
+			//				System.out.println("Counter at: " + cntr);
+			//				if(scores[cntr][i] != scores[nxt][i]){
+			//					System.out.print("Got things: " + thing[i] + " ");
+			//					System.out.print(thing[j]);
+			//					System.out.println("");
+			//					//cntr = 0;
+			//					System.out.println("Counter at: " + cntr);
+			//					System.out.println("Temp array size: " + tmpArrSize);
+			//					System.out.println("Length of thing: " + thing.length);
+			//					// column 1 sort : look ahead criteria a) has next? and, if not, same as current?
+			//					tmpArrSize = 0;
+			//				}
+			//			}
+			//			else{
+			//				// do nada ...
+			//			}
+			//if(nxt < scores.length){
+			if(cntr == 0){
+				System.out.println("current value FIRST ITERATION: " + thing[i]);
+				//					System.out.println("Counter at: " + cntr);
+				//					System.out.println("First iteration: YES!");
+			}
+			else if(nxt < scores.length){
+				if(thing[i] == thing[nxt]){
+					System.out.println("current value CURRENT AND NEXT EQUAL: " + thing[i]);
+					//					System.out.println("Counter at: " + cntr);
+					//					System.out.println("YES!");
+				}
+			}
+			else if(nxt < scores.length){
+				if(thing[i] != thing[nxt]){
+					System.out.println("current value CURRENT AND NEXT NOT EQUAL: " + thing[i]);
+					//					System.out.println("Counter at: " + cntr);
+					//					System.out.println("YES!");
+				}
+			}
+			else{
+				System.out.println("WHAT ? : " + thing[i]);
+				//					System.out.println("Counter at: " + cntr);
+				//					System.out.println("NO!");
+				//					System.out.println("Current value: " + scores[cntr][i]);
+				//					System.out.println("Next value: " + scores[nxt][i]);
+				//					System.out.println("======================================");
+			}
+
+			//break;
+			prevThing = thing;
+			cntr++;
+			nxt = cntr + 1;
+			//System.out.println("Next counter at: " + nxt);
+			tmpArrSize++;
+			//j++;
+		}
+		//		Arrays.sort(scores, new Comparator<int[]>() {
+		//		@Override
+		//		public int compare(int[] o1, int[] o2) {
+		//			return o2[1] - o1[1];
+		//		}
+		//	});

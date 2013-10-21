@@ -61,15 +61,51 @@ public class Jugglers {
 			}
 		}
 
-		System.out.println("Test result of result: " + result.length);
-		System.out.print("Test result of result: " + result[0][0]);
-		System.out.print(" " + result[0][1]);
-		System.out.print(" " + result[0][2]);
-		System.out.print(" " + result[0][3]);
-		System.out.print(" " + result[0][4]);
-		System.out.println(" " + result[0][5]);
+		//		System.out.println("Test result of result: " + result.length);
+		//		System.out.print("Test result of result: " + result[0][0]);
+		//		System.out.print(" " + result[0][1]);
+		//		System.out.print(" " + result[0][2]);
+		//		System.out.print(" " + result[0][3]);
+		//		System.out.print(" " + result[0][4]);
+		//		System.out.println(" " + result[0][5]);
 
-		Jugglers.detCircuit(result);
+		ArrayList<int[][]> testResult = Jugglers.detCircuit(result);
+		System.out.println("Size of our test result: " + testResult.size());
+		int[][] insideTestRslt = testResult.get(0);
+		int[][] insideTestRslt1 = testResult.get(1);
+		int[][] insideTestRslt2 = testResult.get(2);
+		System.out.println("First list of circuits: " + insideTestRslt.length);
+		System.out.println("Second list of circuits: " + insideTestRslt1.length);
+		for(int i = 0; i < insideTestRslt.length; i++){
+			System.out.print("Result: " + insideTestRslt[i][0]);
+			System.out.print(" " + insideTestRslt[i][1]);
+			System.out.print(" " + insideTestRslt[i][2]);
+//			System.out.print(" " + insideTestRslt[i][3]);
+//			System.out.print(" " + insideTestRslt[i][4]);
+//			System.out.print(" " + insideTestRslt[i][5]);
+			System.out.println("");
+		}
+		
+		for(int i = 0; i < insideTestRslt1.length; i++){
+			System.out.print("Result 1: " + insideTestRslt1[i][0]);
+			System.out.print(" " + insideTestRslt1[i][1]);
+			System.out.print(" " + insideTestRslt1[i][2]);
+//			System.out.print(" " + insideTestRslt[i][3]);
+//			System.out.print(" " + insideTestRslt[i][4]);
+//			System.out.print(" " + insideTestRslt[i][5]);
+			System.out.println("");
+		}
+		
+		for(int i = 0; i < insideTestRslt2.length; i++){
+			System.out.print("Result 2: " + insideTestRslt2[i][0]);
+			System.out.print(" " + insideTestRslt2[i][1]);
+			System.out.print(" " + insideTestRslt2[i][2]);
+//			System.out.print(" " + insideTestRslt[i][3]);
+//			System.out.print(" " + insideTestRslt[i][4]);
+//			System.out.print(" " + insideTestRslt[i][5]);
+			System.out.println("");
+		}
+		
 		//Jugglers.dotProduct();
 		//		String jugg = "J J8 H:8 E:2 P:3 C1,C0,C2";
 		//		String circ = "C C0 H:7 E:7 P:10";
@@ -211,55 +247,57 @@ public class Jugglers {
 	}
 
 	//static void detCircuit(){
-	static void detCircuit(int[][] scores){
-//		int[][] scores = new int[14][3];
-//		// circuits
-//		scores[0][0] = 125;
-//		scores[1][0] = 77;
-//		scores[2][0] = 236;
-//		scores[3][0] = 236;
-//		scores[4][0] = 236;
-//		scores[5][0] = 334;
-//		scores[6][0] = 125;
-//		scores[7][0] = 125;
-//		scores[8][0] = 334;
-//		scores[9][0] = 236;
-//		scores[10][0] = 159;
-//		scores[11][0] = 236;
-//		scores[12][0] = 129;
-//		scores[13][0] = 77;
-//
-//		//scores
-//		scores[0][1] = 89;
-//		scores[1][1] = 526;
-//		scores[2][1] = 2;
-//		scores[3][1] = 2596;
-//		scores[4][1] = 33;
-//		scores[5][1] = 48;
-//		scores[6][1] = 44511254;
-//		scores[7][1] = 22;
-//		scores[8][1] = 5206;
-//		scores[9][1] = 166;
-//		scores[10][1] = 167;
-//		scores[11][1] = 55;
-//		scores[12][1] = 889;
-//		scores[13][1] = 145;
-//
-//		// jugglers
-//		scores[0][2] = 3;
-//		scores[1][2] = 2;
-//		scores[2][2] = 1;
-//		scores[3][2] = 4;
-//		scores[4][2] = 7;
-//		scores[5][2] = 9;
-//		scores[6][2] = 11;
-//		scores[7][2] = 12;
-//		scores[8][2] = 34;
-//		scores[9][2] = 26;
-//		scores[10][2] = 5;
-//		scores[11][2] = 14;
-//		scores[12][2] = 15;
-//		scores[13][2] = 37;
+	//static void detCircuit(int[][] scores){
+	static ArrayList<int[][]> detCircuit(int[][] scores){
+		ArrayList<int[][]> circuitL = new ArrayList<int[][]>();
+		//		int[][] scores = new int[14][3];
+		//		// circuits
+		//		scores[0][0] = 125;
+		//		scores[1][0] = 77;
+		//		scores[2][0] = 236;
+		//		scores[3][0] = 236;
+		//		scores[4][0] = 236;
+		//		scores[5][0] = 334;
+		//		scores[6][0] = 125;
+		//		scores[7][0] = 125;
+		//		scores[8][0] = 334;
+		//		scores[9][0] = 236;
+		//		scores[10][0] = 159;
+		//		scores[11][0] = 236;
+		//		scores[12][0] = 129;
+		//		scores[13][0] = 77;
+		//
+		//		//scores
+		//		scores[0][1] = 89;
+		//		scores[1][1] = 526;
+		//		scores[2][1] = 2;
+		//		scores[3][1] = 2596;
+		//		scores[4][1] = 33;
+		//		scores[5][1] = 48;
+		//		scores[6][1] = 44511254;
+		//		scores[7][1] = 22;
+		//		scores[8][1] = 5206;
+		//		scores[9][1] = 166;
+		//		scores[10][1] = 167;
+		//		scores[11][1] = 55;
+		//		scores[12][1] = 889;
+		//		scores[13][1] = 145;
+		//
+		//		// jugglers
+		//		scores[0][2] = 3;
+		//		scores[1][2] = 2;
+		//		scores[2][2] = 1;
+		//		scores[3][2] = 4;
+		//		scores[4][2] = 7;
+		//		scores[5][2] = 9;
+		//		scores[6][2] = 11;
+		//		scores[7][2] = 12;
+		//		scores[8][2] = 34;
+		//		scores[9][2] = 26;
+		//		scores[10][2] = 5;
+		//		scores[11][2] = 14;
+		//		scores[12][2] = 15;
+		//		scores[13][2] = 37;
 
 		scores = Jugglers.getSorted(scores,0);
 
@@ -277,8 +315,8 @@ public class Jugglers {
 			if(nxt < scores.length){
 				if(scores[i][colZ] == scores[nxt][colZ]){
 					// harvests
-					//					System.out.println("Got value: " + scores[i][colZ]);
-					//					System.out.println("+++++++++++++++++++++++++++++++++++");
+//					System.out.println("Got value: " + scores[i][colZ]);
+//					System.out.println("+++++++++++++++++++++++++++++++++++");
 					if(i == 0){
 						partStrt = i;
 					}
@@ -286,18 +324,19 @@ public class Jugglers {
 						System.out.println("At the end ... ?");
 						partStrt = partEnd + 1;
 						partEnd = i;
-						//System.out.println("Got value: " + scores[i][colZ]);
+						//						System.out.println("Got value: " + scores[i][colZ]);
 						//						System.out.println("Partition started at: " + partStrt);
 						//						System.out.println("Partition ended at: " + partEnd);
 						//						System.out.println("===================================");
 						partSze = (partEnd - partStrt) + 1;
 						//						System.out.println(">> Size of partition: " + partSze);
 						//						System.out.println("-----------------------------------");
-						int[][] tmpArr = new int[partSze][3];
+						//int[][] tmpArr = new int[partSze][3];
+						int[][] tmpArr = new int[partSze][6];
 						//int tmpStrtL = partStrt;
 						tmpArr = Jugglers.copyPartition(tmpArr, scores, partStrt, partSze);
 						tmpArr = Jugglers.getSorted(tmpArr, 1);
-
+						circuitL.add(tmpArr);
 						partSze = 0;
 					}
 
@@ -316,15 +355,18 @@ public class Jugglers {
 					//					System.out.println(">> Size of partition: " + partSze);
 					//
 					//					System.out.println("-----------------------------------");
-					int[][] tmpArr = new int[partSze][3];
+					//int[][] tmpArr = new int[partSze][3];
+					int[][] tmpArr = new int[partSze][6];
 					//int tmpStrtL = partStrt;
 					tmpArr = Jugglers.copyPartition(tmpArr, scores, partStrt, partSze);
 					tmpArr = Jugglers.getSorted(tmpArr, 1);
+					circuitL.add(tmpArr);
 					partSze = 0;
 				}
 			}
 			nxt = i + 2;
 		}
+		return circuitL;
 	}
 	private static int[][] getSorted(int[][] arrToSort, final int col){
 		Arrays.sort(arrToSort, new Comparator<int[]>() {
@@ -347,18 +389,24 @@ public class Jugglers {
 			newArr = null;
 			int[][] sglPart = new int[1][3];
 			newArr = sglPart;
-			//			System.out.println("Partition value: " + partM);
-			//			System.out.println("Partition value: " + origArr[partM][0]);
-			//			System.out.println("Partition value: " + origArr[partM][1]);
+			System.out.println("Partition value: " + partM);
+			System.out.println("Partition value: " + origArr[partM][0]);
+			System.out.println("Partition value: " + origArr[partM][1]);
 
 			newArr[0][0] = origArr[partM][0];
 			newArr[0][1] = origArr[partM][1];
 			newArr[0][2] = origArr[partM][2];
+			newArr[0][3] = origArr[partM][2];
+			newArr[0][4] = origArr[partM][2];
+			newArr[0][5] = origArr[partM][2];
 		}else{
 			for(int j = 0; j < newArr.length; j++){
 				newArr[j][0] = origArr[partM][0];
 				newArr[j][1] = origArr[partM][1];
 				newArr[j][2] = origArr[partM][2];
+				newArr[j][3] = origArr[partM][2];
+				newArr[j][4] = origArr[partM][2];
+				newArr[j][5] = origArr[partM][2];
 				partM++;
 			}
 		}

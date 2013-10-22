@@ -1,5 +1,14 @@
 package org.benthumb.yodle.test;
 
+
+
+// Algorithm ... start with circuit that has highest values and go in order winnowing all the way
+// So first task after getting a list of lists of circuits ordered by scores is to order
+// the list of lists itself based on the top score of each list it contains ... also each array list has to be secondarily ordered by
+// preference ... multi-column sort is the key to this exercise...
+
+// Also have to add preferences, may be required in order to decide between two equal values, etc.
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -7,14 +16,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Jugglers {
+	
+	static Logger logMsg = Logger.getLogger("Jugglers");
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
 		List<int[]> listOfCircuits = new ArrayList<int[]>();
 		List<int[]> listOfJugglers = new ArrayList<int[]>();
 		File f = new File("C:\\Users\\Paul\\workspace\\JUGGLERS_YODLE\\src\\org\\benthumb\\yodle\\test\\jugglefest_sample.txt");
@@ -77,6 +90,7 @@ public class Jugglers {
 		System.out.println("First list of circuits: " + insideTestRslt.length);
 		System.out.println("Second list of circuits: " + insideTestRslt1.length);
 		for(int i = 0; i < insideTestRslt.length; i++){
+			//logMsg.log(java.util.logging.Level.INFO, "Happy!");
 			System.out.print("Result: " + insideTestRslt[i][0]);
 			System.out.print(" " + insideTestRslt[i][1]);
 			System.out.print(" " + insideTestRslt[i][2]);

@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class Jugglers {
-	
 	static Logger logMsg = Logger.getLogger("Jugglers");
 
 	/**
@@ -52,7 +51,6 @@ public class Jugglers {
 			//System.out.println("Routine failed: " + e.getStackTrace());
 			e.printStackTrace();
 		}
-		int count = 0;
 		int plc = 0;
 		int[][] result = new int[listOfCircuits.size() * listOfJugglers.size()][6];
 		for(int[] circuit : listOfCircuits){
@@ -68,9 +66,6 @@ public class Jugglers {
 
 				//increment
 				plc++;
-
-				//System.out.println("Count: " + count);
-				count++;
 			}
 		}
 
@@ -90,24 +85,21 @@ public class Jugglers {
 		System.out.println("First list of circuits: " + insideTestRslt.length);
 		System.out.println("Second list of circuits: " + insideTestRslt1.length);
 		for(int i = 0; i < insideTestRslt.length; i++){
-			//logMsg.log(java.util.logging.Level.INFO, "Happy!");
-			System.out.print("Result: " + insideTestRslt[i][0]);
-			System.out.print(" " + insideTestRslt[i][1]);
-			System.out.print(" " + insideTestRslt[i][2]);
+			logMsg.log(java.util.logging.Level.INFO, "Result: " );
+			System.out.println(+ insideTestRslt[i][0] + " " + insideTestRslt[i][1] + " " + insideTestRslt[i][2]);
 //			System.out.print(" " + insideTestRslt[i][3]);
 //			System.out.print(" " + insideTestRslt[i][4]);
 //			System.out.print(" " + insideTestRslt[i][5]);
-			System.out.println("");
+			//System.out.println("");
 		}
 		
 		for(int i = 0; i < insideTestRslt1.length; i++){
-			System.out.print("Result 1: " + insideTestRslt1[i][0]);
-			System.out.print(" " + insideTestRslt1[i][1]);
-			System.out.print(" " + insideTestRslt1[i][2]);
+			logMsg.log(java.util.logging.Level.INFO, "Result: " );
+			System.out.println("Result 1: " + insideTestRslt1[i][0] + " " + insideTestRslt1[i][1] + " " + insideTestRslt1[i][2]);
 //			System.out.print(" " + insideTestRslt[i][3]);
 //			System.out.print(" " + insideTestRslt[i][4]);
 //			System.out.print(" " + insideTestRslt[i][5]);
-			System.out.println("");
+			//System.out.println("");
 		}
 		
 		for(int i = 0; i < insideTestRslt2.length; i++){
@@ -119,33 +111,14 @@ public class Jugglers {
 //			System.out.print(" " + insideTestRslt[i][5]);
 			System.out.println("");
 		}
-		
-		//Jugglers.dotProduct();
-		//		String jugg = "J J8 H:8 E:2 P:3 C1,C0,C2";
-		//		String circ = "C C0 H:7 E:7 P:10";
-		//		int[] juggArr = Jugglers.processJuggStr(jugg);
-		//		int[] cirArr = Jugglers.processCircStr(circ);
-		//		Jugglers.dotProduct(cirArr, juggArr);
 
 	}
+	
 	static int dotProduct(int[] cirArr, int[] juggArr){
-		// (2i + 4j + 5k) * (5i + 22j + 90k) = 548
-
-		//		Vector<Integer> vO = new Vector<Integer>();
-		//		Vector<Integer> vT = new Vector<Integer>();
+		// The concept: (2i + 4j + 5k) * (5i + 22j + 90k) = 548
 
 		int[] vO = cirArr;
 		int[] vT = juggArr;
-
-		//My_Vector.addAll(Arrays.asList(My_Array));
-
-		//		vO.add(2);
-		//		vO.add(4);
-		//		vO.add(90);
-		//
-		//		vT.add(5);
-		//		vT.add(22);
-		//		vT.add(5);
 
 		int I = 0;
 		int J = 0;
@@ -153,7 +126,6 @@ public class Jugglers {
 		int dP;
 
 		for(int i = 1; i < 4; i++){
-			// first I
 			if(i == 1){
 				I = vO[i]*vT[i];
 				//System.out.println("I value: " + I);
@@ -168,18 +140,6 @@ public class Jugglers {
 			}
 		}
 
-		//		for(int i = 0; i < vO.size(); i++){
-		//			// first I
-		//			if(i == 0){
-		//				I = vO.get(i)*vT.get(i);
-		//			}
-		//			else if(i == 1){
-		//				J = vO.get(i)*vT.get(i);
-		//			}
-		//			else{
-		//				K = vO.get(i)*vT.get(i);
-		//			}
-		//		}
 		dP = I+J+K;
 		//System.out.println("The dot product is: " + dP + " !!");
 		return dP;
@@ -195,7 +155,6 @@ public class Jugglers {
 		for(String val : tempStr){
 			if(i != -1){
 				if(i == 0){
-					// id = id.replace(".xml", "");
 					val = val.replace("J","");
 					// keep 1-end : assign to first slot in recept
 					//System.out.println("Removed 'J' from 1st position: " + val);
@@ -219,7 +178,7 @@ public class Jugglers {
 			// iterate loop counter
 			i++;
 		}
-		System.out.println("Here's our reconstituted Juggler string: ");
+		logMsg.log(java.util.logging.Level.INFO, "Here's our reconstituted Juggler string: ");
 		for(int j : recept){
 			System.out.print(j + " ");
 		}
@@ -251,7 +210,7 @@ public class Jugglers {
 			// iterate loop counter
 			i++;
 		}
-		System.out.println("Here's our reconstituted Circuit string: ");
+		logMsg.log(java.util.logging.Level.INFO, "Here's our reconstituted Circuit string: ");
 		for(int j : recept){
 			System.out.print(j + " ");
 
@@ -260,68 +219,17 @@ public class Jugglers {
 		return recept;
 	}
 
-	//static void detCircuit(){
-	//static void detCircuit(int[][] scores){
 	static ArrayList<int[][]> detCircuit(int[][] scores){
 		ArrayList<int[][]> circuitL = new ArrayList<int[][]>();
-		//		int[][] scores = new int[14][3];
-		//		// circuits
-		//		scores[0][0] = 125;
-		//		scores[1][0] = 77;
-		//		scores[2][0] = 236;
-		//		scores[3][0] = 236;
-		//		scores[4][0] = 236;
-		//		scores[5][0] = 334;
-		//		scores[6][0] = 125;
-		//		scores[7][0] = 125;
-		//		scores[8][0] = 334;
-		//		scores[9][0] = 236;
-		//		scores[10][0] = 159;
-		//		scores[11][0] = 236;
-		//		scores[12][0] = 129;
-		//		scores[13][0] = 77;
-		//
-		//		//scores
-		//		scores[0][1] = 89;
-		//		scores[1][1] = 526;
-		//		scores[2][1] = 2;
-		//		scores[3][1] = 2596;
-		//		scores[4][1] = 33;
-		//		scores[5][1] = 48;
-		//		scores[6][1] = 44511254;
-		//		scores[7][1] = 22;
-		//		scores[8][1] = 5206;
-		//		scores[9][1] = 166;
-		//		scores[10][1] = 167;
-		//		scores[11][1] = 55;
-		//		scores[12][1] = 889;
-		//		scores[13][1] = 145;
-		//
-		//		// jugglers
-		//		scores[0][2] = 3;
-		//		scores[1][2] = 2;
-		//		scores[2][2] = 1;
-		//		scores[3][2] = 4;
-		//		scores[4][2] = 7;
-		//		scores[5][2] = 9;
-		//		scores[6][2] = 11;
-		//		scores[7][2] = 12;
-		//		scores[8][2] = 34;
-		//		scores[9][2] = 26;
-		//		scores[10][2] = 5;
-		//		scores[11][2] = 14;
-		//		scores[12][2] = 15;
-		//		scores[13][2] = 37;
-
+		
 		scores = Jugglers.getSorted(scores,0);
 
 		int colZ = 0;
-		int colI = 1;
 		int nxt = 0;
 		int partStrt = 0;
 		int partEnd = 0;
 		int partSze = 0;
-		//int[][] tmpArr = null;
+
 		for(int i = 0; i < scores.length; i++){
 			if(nxt == scores.length){
 				nxt--;
@@ -382,6 +290,7 @@ public class Jugglers {
 		}
 		return circuitL;
 	}
+	
 	private static int[][] getSorted(int[][] arrToSort, final int col){
 		Arrays.sort(arrToSort, new Comparator<int[]>() {
 			@Override
@@ -389,12 +298,6 @@ public class Jugglers {
 				return o2[col] - o1[col];
 			}
 		});
-
-		//		for(int l = 0; l < arrToSort.length; l++){
-		//			System.out.print("Got elements: " + arrToSort[l][0]);
-		//			System.out.print(" " + arrToSort[l][1]);
-		//			System.out.println(" " + arrToSort[l][2]);
-		//		}
 		return arrToSort;
 	}
 

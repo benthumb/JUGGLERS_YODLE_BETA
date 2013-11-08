@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -89,7 +90,7 @@ public class Jugglers {
 					+ insideTestRslt[i][1] + " " + insideTestRslt[i][2] + " "
 					+ insideTestRslt[i][3] + " " + insideTestRslt[i][4] + " "
 					+ insideTestRslt[i][5]);
-			// System.out.println("");
+			System.out.println("");
 		}
 
 		for (int i = 0; i < insideTestRslt1.length; i++) {
@@ -98,7 +99,7 @@ public class Jugglers {
 					+ insideTestRslt1[i][1] + " " + insideTestRslt1[i][2] + " "
 					+ insideTestRslt1[i][3] + " " + insideTestRslt1[i][4] + " "
 					+ insideTestRslt1[i][5]);
-			// System.out.println("");
+			System.out.println("");
 		}
 
 		for (int i = 0; i < insideTestRslt2.length; i++) {
@@ -107,8 +108,11 @@ public class Jugglers {
 					+ insideTestRslt2[i][1] + " " + insideTestRslt2[i][2] + " "
 					+ insideTestRslt2[i][3] + " " + insideTestRslt2[i][4] + " "
 					+ insideTestRslt2[i][5]);
-			// System.out.println("");
+			System.out.println("");
 		}
+		
+		sortListOfLists();
+		
 
 	}
 
@@ -331,5 +335,89 @@ public class Jugglers {
 			}
 		}
 		return newArr;
+	}
+	
+	private static void sortListOfLists(){
+		
+		int[][] intList0 = new int[12][6];
+		int[][] intList1 = new int[12][6];
+		int[][] intList2 = new int[12][6];
+		int[][] intList3 = new int[12][6];
+		List<int[][]> lOl = new ArrayList<int[][]>();
+		
+		intList0[0][0] = 543;
+		intList0[1][0] = 533;
+		intList0[2][0] = 444;
+		intList0[3][0] = 234;
+		intList0[4][0] = 156;
+		intList0[5][0] = 111;
+		intList0[6][0] = 102;
+		intList0[7][0] = 99;
+		intList0[8][0] = 88;
+		intList0[9][0] = 75;
+		intList0[10][0] = 62;
+		intList0[11][0] = 52;
+		
+		intList1[0][0] = 6554;// this is the number we're concerned with ...
+		intList1[1][0] = 6442;
+		intList1[2][0] = 777;
+		intList1[3][0] = 321;
+		intList1[4][0] = 238;
+		intList1[5][0] = 222;
+		intList1[6][0] = 209;
+		intList1[7][0] = 111;
+		intList1[8][0] = 108;
+		intList1[9][0] = 99;
+		intList1[10][0] = 71;
+		intList1[11][0] = 21;
+		
+		intList2[0][0] = 10000;
+		intList2[1][0] = 9990;
+		intList2[2][0] = 7654;
+		intList2[3][0] = 556;
+		intList2[4][0] = 500;
+		intList2[5][0] = 499;
+		intList2[6][0] = 487;
+		intList2[7][0] = 401;
+		intList2[8][0] = 345;
+		intList2[9][0] = 321;
+		intList2[10][0] = 310;
+		intList2[11][0] = 75;
+		
+		intList3[0][0] = 33;
+		intList3[1][0] = 32;
+		intList3[2][0] = 20;
+		intList3[3][0] = 18;
+		intList3[4][0] = 15;
+		intList3[5][0] = 12;
+		intList3[6][0] = 11;
+		intList3[7][0] = 9;
+		intList3[8][0] = 7;
+		intList3[9][0] = 3;
+		intList3[10][0] = 2;
+		intList3[11][0] = 1;
+		
+		lOl.add(intList3);
+		lOl.add(intList0);
+		lOl.add(intList2);
+		lOl.add(intList1);
+		
+		Collections.sort(lOl, new Comparator<int[][]>(){		
+		@Override
+		public int compare(int[][] o1, int[][] o2) {
+			return o2[0][0] - o1[0][0];
+		}
+	});	
+		// expected order : 2,1,0,3 ...
+		
+		int[][] thing1 = lOl.get(0);
+		int[][] thing2 = lOl.get(1);
+		int[][] thing3 = lOl.get(2);
+		int[][] thing4 = lOl.get(3);
+		
+		logMsg.log(java.util.logging.Level.INFO, "Got val 1: " + thing1[0][0]);
+		logMsg.log(java.util.logging.Level.INFO, "Got val 2: " + thing2[0][0]);
+		logMsg.log(java.util.logging.Level.INFO, "Got val 3: " + thing3[0][0]);
+		logMsg.log(java.util.logging.Level.INFO, "Got val 4: " + thing4[0][0]);
 	}
 }

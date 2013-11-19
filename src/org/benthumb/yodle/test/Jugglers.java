@@ -253,7 +253,7 @@ public class Jugglers {
 						// partStrt);
 						// System.out.println("Partition ended at: " + partEnd);
 						// System.out.println("===================================");
-						partSze = (partEnd - partStrt) + 1;
+						partSze = partStrt == 1 ? (partEnd - partStrt) + 2 : (partEnd - partStrt) + 1;
 						// System.out.println(">> Size of partition: " +
 						// partSze);
 						// System.out.println("-----------------------------------");
@@ -278,7 +278,8 @@ public class Jugglers {
 					// System.out.println("Partition started at: " + partStrt);
 					// System.out.println("Partition ended at: " + partEnd);
 					// System.out.println("===================================");
-					partSze = (partEnd - partStrt) + 1;
+					partSze = partStrt == 1 ? (partEnd - partStrt) + 2 : (partEnd - partStrt) + 1;
+					//partSze = (partEnd - partStrt) + 1;
 					// System.out.println(">> Size of partition: " + partSze);
 					//
 					// System.out.println("-----------------------------------");

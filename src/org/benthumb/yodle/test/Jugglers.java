@@ -68,52 +68,50 @@ public class Jugglers {
 			}
 		}
 
-		System.out.println("Test result of result: " + result.length);
-		System.out.print("Test result of result: " + result[0][0]);
-		System.out.print(" " + result[0][1]);
-		System.out.print(" " + result[0][2]);
-		System.out.print(" " + result[0][3]);
-		System.out.print(" " + result[0][4]);
-		System.out.println(" " + result[0][5]);
+		//		System.out.println("Test result of result: " + result.length);
+		//		System.out.print("Test result of result: " + result[0][0]);
+		//		System.out.print(" " + result[0][1]);
+		//		System.out.print(" " + result[0][2]);
+		//		System.out.print(" " + result[0][3]);
+		//		System.out.print(" " + result[0][4]);
+		//		System.out.println(" " + result[0][5]);
 
 		ArrayList<int[][]> testResult = Jugglers.detCircuit(result);
-		System.out.println("Size of our test result: " + testResult.size());
-		int[][] insideTestRslt = testResult.get(0);
-		int[][] insideTestRslt1 = testResult.get(1);
-		int[][] insideTestRslt2 = testResult.get(2);
-		System.out.println("First list of circuits: " + insideTestRslt.length);
-		System.out
+				System.out.println("Size of our test result: " + testResult.size());
+				int[][] insideTestRslt = testResult.get(0);
+				int[][] insideTestRslt1 = testResult.get(1);
+				int[][] insideTestRslt2 = testResult.get(2);
+				System.out.println("First list of circuits: " + insideTestRslt.length);
+				System.out
 				.println("Second list of circuits: " + insideTestRslt1.length);
-		for (int i = 0; i < insideTestRslt.length; i++) {
-			logMsg.log(java.util.logging.Level.INFO, "Result: ");
-			System.out.println("Result 0: " + insideTestRslt[i][0] + " "
-					+ insideTestRslt[i][1] + " " + insideTestRslt[i][2] + " "
-					+ insideTestRslt[i][3] + " " + insideTestRslt[i][4] + " "
-					+ insideTestRslt[i][5]);
-			System.out.println("");
-		}
-
-		for (int i = 0; i < insideTestRslt1.length; i++) {
-			logMsg.log(java.util.logging.Level.INFO, "Result: ");
-			System.out.println("Result 1: " + insideTestRslt1[i][0] + " "
-					+ insideTestRslt1[i][1] + " " + insideTestRslt1[i][2] + " "
-					+ insideTestRslt1[i][3] + " " + insideTestRslt1[i][4] + " "
-					+ insideTestRslt1[i][5]);
-			System.out.println("");
-		}
-
-		for (int i = 0; i < insideTestRslt2.length; i++) {
-			logMsg.log(java.util.logging.Level.INFO, "Result: ");
-			System.out.print("Result 2: " + insideTestRslt2[i][0] + " "
-					+ insideTestRslt2[i][1] + " " + insideTestRslt2[i][2] + " "
-					+ insideTestRslt2[i][3] + " " + insideTestRslt2[i][4] + " "
-					+ insideTestRslt2[i][5]);
-			System.out.println("");
-		}
+				for (int i = 0; i < insideTestRslt.length; i++) {
+					logMsg.log(java.util.logging.Level.INFO, "Result: ");
+					System.out.println("Result 0: " + insideTestRslt[i][0] + " "
+							+ insideTestRslt[i][1] + " " + insideTestRslt[i][2] + " "
+							+ insideTestRslt[i][3] + " " + insideTestRslt[i][4] + " "
+							+ insideTestRslt[i][5]);
+					System.out.println("");
+				}
 		
-		sortListOfLists();
+				for (int i = 0; i < insideTestRslt1.length; i++) {
+					logMsg.log(java.util.logging.Level.INFO, "Result: ");
+					System.out.println("Result 1: " + insideTestRslt1[i][0] + " "
+							+ insideTestRslt1[i][1] + " " + insideTestRslt1[i][2] + " "
+							+ insideTestRslt1[i][3] + " " + insideTestRslt1[i][4] + " "
+							+ insideTestRslt1[i][5]);
+					System.out.println("");
+				}
 		
+				for (int i = 0; i < insideTestRslt2.length; i++) {
+					logMsg.log(java.util.logging.Level.INFO, "Result: ");
+					System.out.print("Result 2: " + insideTestRslt2[i][0] + " "
+							+ insideTestRslt2[i][1] + " " + insideTestRslt2[i][2] + " "
+							+ insideTestRslt2[i][3] + " " + insideTestRslt2[i][4] + " "
+							+ insideTestRslt2[i][5]);
+					System.out.println("");
+				}
 
+		//testResult = sortListOfLists(testResult);
 	}
 
 	static int dotProduct(int[] cirArr, int[] juggArr) {
@@ -222,79 +220,37 @@ public class Jugglers {
 	}
 
 	static ArrayList<int[][]> detCircuit(int[][] scores) {
+		// ** add all copied arrays here **
 		ArrayList<int[][]> circuitL = new ArrayList<int[][]>();
 
+		// ** need to dynamically calculate # partitions **
+		int[][] copiedArray0 = new int[12][6];
+		int[][] copiedArray1 = new int[12][6];
+		int[][] copiedArray2 = new int[12][6];
+
+		// ** sort by circuit **
 		scores = Jugglers.getSorted(scores, 0);
 
-		int colZ = 0;
-		int nxt = 0;
-		int partStrt = 0;
-		int partEnd = 0;
-		int partSze = 0;
+		// ** copy circuits into newly allocated arrays **
+		System.arraycopy(scores, 0, copiedArray0, 0, 12);
+		System.arraycopy(scores, 12, copiedArray1, 0, 12);
+		System.arraycopy(scores, 24, copiedArray2, 0, 12);
 
-		for (int i = 0; i < scores.length; i++) {
-			if (nxt == scores.length) {
-				nxt--;
-			}
-			if (nxt < scores.length) {
-				if (scores[i][colZ] == scores[nxt][colZ]) {
-					// harvests
-					// System.out.println("Got value: " + scores[i][colZ]);
-					// System.out.println("+++++++++++++++++++++++++++++++++++");
-					if (i == 0) {
-						partStrt = i;
-					}
-					if (i == nxt && partStrt > 0) {
-						System.out.println("At the end ... ?");
-						partStrt = partEnd + 1;
-						partEnd = i;
-						// System.out.println("Got value: " + scores[i][colZ]);
-						// System.out.println("Partition started at: " +
-						// partStrt);
-						// System.out.println("Partition ended at: " + partEnd);
-						// System.out.println("===================================");
-						partSze = partStrt == 1 ? (partEnd - partStrt) + 2 : (partEnd - partStrt) + 1;
-						// System.out.println(">> Size of partition: " +
-						// partSze);
-						// System.out.println("-----------------------------------");
-						// int[][] tmpArr = new int[partSze][3];
-						int[][] tmpArr = new int[partSze][6];
-						// int tmpStrtL = partStrt;
-						tmpArr = Jugglers.copyPartition(tmpArr, scores,
-								partStrt, partSze);
-						tmpArr = Jugglers.getSorted(tmpArr, 1);
-						circuitL.add(tmpArr);
-						partSze = 0;
-					}
+		// ** sort by dot product score **
+		copiedArray0 = Jugglers.getSorted(copiedArray0, 1);
+		copiedArray1 = Jugglers.getSorted(copiedArray1, 1);
+		copiedArray2 = Jugglers.getSorted(copiedArray2, 1);
 
-				} else {
-					if (partStrt == 0 && i == 1) {
-						// do nada
-					} else {
-						partStrt = partEnd + 1;
-					}
-					partEnd = i;
-					// System.out.println("Got value: " + scores[i][colZ]);
-					// System.out.println("Partition started at: " + partStrt);
-					// System.out.println("Partition ended at: " + partEnd);
-					// System.out.println("===================================");
-					partSze = partStrt == 1 ? (partEnd - partStrt) + 2 : (partEnd - partStrt) + 1;
-					//partSze = (partEnd - partStrt) + 1;
-					// System.out.println(">> Size of partition: " + partSze);
-					//
-					// System.out.println("-----------------------------------");
-					// int[][] tmpArr = new int[partSze][3];
-					int[][] tmpArr = new int[partSze][6];
-					// int tmpStrtL = partStrt;
-					tmpArr = Jugglers.copyPartition(tmpArr, scores, partStrt,
-							partSze);
-					tmpArr = Jugglers.getSorted(tmpArr, 1);
-					circuitL.add(tmpArr);
-					partSze = 0;
-				}
-			}
-			nxt = i + 2;
-		}
+		//		int x0 = copiedArray0.length;
+		//		int x1 = copiedArray1.length;
+		//		int x2 = copiedArray2.length;
+
+		circuitL.add(copiedArray0);
+		circuitL.add(copiedArray1);
+		circuitL.add(copiedArray2);
+
+		circuitL = sortListOfLists(circuitL);
+
 		return circuitL;
 	}
 
@@ -308,117 +264,45 @@ public class Jugglers {
 		return arrToSort;
 	}
 
-	private static int[][] copyPartition(int[][] newArr, int[][] origArr,
-			int partM, int sze) {
-		if (sze == 1) {
-			newArr = null;
-			int[][] sglPart = new int[1][3];
-			newArr = sglPart;
-			System.out.println("Partition value: " + partM);
-			System.out.println("Partition value: " + origArr[partM][0]);
-			System.out.println("Partition value: " + origArr[partM][1]);
-
-			newArr[0][0] = origArr[partM][0];
-			newArr[0][1] = origArr[partM][1];
-			newArr[0][2] = origArr[partM][2];
-			newArr[0][3] = origArr[partM][3];
-			newArr[0][4] = origArr[partM][4];
-			newArr[0][5] = origArr[partM][5];
-		} else {
-			for (int j = 0; j < newArr.length; j++) {
-				newArr[j][0] = origArr[partM][0];
-				newArr[j][1] = origArr[partM][1];
-				newArr[j][2] = origArr[partM][2];
-				newArr[j][3] = origArr[partM][3];
-				newArr[j][4] = origArr[partM][4];
-				newArr[j][5] = origArr[partM][5];
-				partM++;
-			}
-		}
-		return newArr;
-	}
-	
-	private static void sortListOfLists(){
-		
-		int[][] intList0 = new int[12][6];
-		int[][] intList1 = new int[12][6];
-		int[][] intList2 = new int[12][6];
-		int[][] intList3 = new int[12][6];
-		List<int[][]> lOl = new ArrayList<int[][]>();
-		
-		intList0[0][0] = 543;
-		intList0[1][0] = 533;
-		intList0[2][0] = 444;
-		intList0[3][0] = 234;
-		intList0[4][0] = 156;
-		intList0[5][0] = 111;
-		intList0[6][0] = 102;
-		intList0[7][0] = 99;
-		intList0[8][0] = 88;
-		intList0[9][0] = 75;
-		intList0[10][0] = 62;
-		intList0[11][0] = 52;
-		
-		intList1[0][0] = 6554;// this is the number we're concerned with ...
-		intList1[1][0] = 6442;
-		intList1[2][0] = 777;
-		intList1[3][0] = 321;
-		intList1[4][0] = 238;
-		intList1[5][0] = 222;
-		intList1[6][0] = 209;
-		intList1[7][0] = 111;
-		intList1[8][0] = 108;
-		intList1[9][0] = 99;
-		intList1[10][0] = 71;
-		intList1[11][0] = 21;
-		
-		intList2[0][0] = 10000;
-		intList2[1][0] = 9990;
-		intList2[2][0] = 7654;
-		intList2[3][0] = 556;
-		intList2[4][0] = 500;
-		intList2[5][0] = 499;
-		intList2[6][0] = 487;
-		intList2[7][0] = 401;
-		intList2[8][0] = 345;
-		intList2[9][0] = 321;
-		intList2[10][0] = 310;
-		intList2[11][0] = 75;
-		
-		intList3[0][0] = 33;
-		intList3[1][0] = 32;
-		intList3[2][0] = 20;
-		intList3[3][0] = 18;
-		intList3[4][0] = 15;
-		intList3[5][0] = 12;
-		intList3[6][0] = 11;
-		intList3[7][0] = 9;
-		intList3[8][0] = 7;
-		intList3[9][0] = 3;
-		intList3[10][0] = 2;
-		intList3[11][0] = 1;
-		
-		lOl.add(intList3);
-		lOl.add(intList0);
-		lOl.add(intList2);
-		lOl.add(intList1);
-		
+	private static ArrayList<int[][]> sortListOfLists(ArrayList<int[][]> lOl){		
 		Collections.sort(lOl, new Comparator<int[][]>(){		
-		@Override
-		public int compare(int[][] o1, int[][] o2) {
-			return o2[0][0] - o1[0][0];
-		}
-	});	
-		// expected order : 2,1,0,3 ...
-		
+			@Override
+			public int compare(int[][] o1, int[][] o2) {
+				return o2[0][1] - o1[0][1];
+			}
+		});	
 		int[][] thing1 = lOl.get(0);
 		int[][] thing2 = lOl.get(1);
 		int[][] thing3 = lOl.get(2);
-		int[][] thing4 = lOl.get(3);
-		
+		//int[][] thing4 = lOl.get(3);
+
 		logMsg.log(java.util.logging.Level.INFO, "Got val 1: " + thing1[0][0]);
 		logMsg.log(java.util.logging.Level.INFO, "Got val 2: " + thing2[0][0]);
 		logMsg.log(java.util.logging.Level.INFO, "Got val 3: " + thing3[0][0]);
-		logMsg.log(java.util.logging.Level.INFO, "Got val 4: " + thing4[0][0]);
+		//logMsg.log(java.util.logging.Level.INFO, "Got val 4: " + thing4[0][0]);
+		
+		anaList(lOl);
+
+		return lOl;
+	}
+
+	private static void anaList(ArrayList<int[][]> targL){
+		// analyze: current circuit vs preference
+	    int numAssJuggs = (12/targL.size());
+		ArrayList<int[][]> remainder = new ArrayList<int[][]>();
+		ArrayList<int[][]> assigned = new ArrayList<int[][]>();
+		for(int i = 0; i < targL.size(); i++){
+			int[][] testCircuit = targL.get(i);
+			for(int x = 0; x < numAssJuggs; x++){
+				if(testCircuit[x][0] == testCircuit[x][3]){
+					assigned.add(testCircuit);
+					logMsg.log(java.util.logging.Level.INFO, "Assign Juggler: " + testCircuit[x][2] + " to circuit " + testCircuit[x][0]);
+				}else{
+					remainder.add(testCircuit);
+				}
+			}
+			int sze = remainder.size();
+			//int[][] 
+		}
 	}
 }

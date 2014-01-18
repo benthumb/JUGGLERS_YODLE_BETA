@@ -1,11 +1,10 @@
 package org.benthumb.yodle.test;
+//Algorithm ... start with circuit that has highest values and go in order winnowing all the way
+//So first task after getting a list of lists of circuits ordered by scores is to order
+//the list of lists itself based on the top score of each list it contains ... also each array list has to be secondarily ordered by
+//preference ... multi-column sort is the key to this exercise...
 
-// Algorithm ... start with circuit that has highest values and go in order winnowing all the way
-// So first task after getting a list of lists of circuits ordered by scores is to order
-// the list of lists itself based on the top score of each list it contains ... also each array list has to be secondarily ordered by
-// preference ... multi-column sort is the key to this exercise...
-
-// Also have to add preferences, may be required in order to decide between two equal values, etc.
+//Also have to add preferences, may be required in order to decide between two equal values, etc.
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,10 +15,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
+import org.benthumb.yodle.test.CircuitDataContainer;
+import org.benthumb.yodle.test.JugglerDataContainer;
 
-public class Jugglers {
+public class Yodle {
 
-	static Logger logMsg = Logger.getLogger("Jugglers");
+	static Logger logMsg = Logger.getLogger("Yodle");
 
 	/**
 	 * @param args
@@ -27,8 +28,8 @@ public class Jugglers {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		List<int[]> listOfCircuits = new ArrayList<int[]>();
-		List<int[]> listOfJugglers = new ArrayList<int[]>();
+		List<CircuitDataContainer> listOfCircuits = new ArrayList<CircuitDataContainer>();
+		List<JugglerDataContainer> listOfJugglers = new ArrayList<JugglerDataContainer>();
 		File f = new File(
 				"C:\\Users\\Paul\\workspace\\JUGGLERS_YODLE\\src\\org\\benthumb\\yodle\\test\\jugglefest_sample.txt");
 		try {
@@ -38,9 +39,9 @@ public class Jugglers {
 				String line = bufr.readLine();
 				if (line != null) {
 					if (line.startsWith("J")) {
-						listOfJugglers.add(Jugglers.processJuggStr(line));
+						listOfJugglers.add(Yodle.processJuggStr(line));
 					} else if (line.startsWith("C")) {
-						listOfCircuits.add(Jugglers.processCircStr(line));
+						listOfCircuits.add(Yodle.processCircStr(line));
 					} else {
 						// iterate don't pay attention
 					}
@@ -53,8 +54,8 @@ public class Jugglers {
 		}
 		int plc = 0;
 		int[][] result = new int[listOfCircuits.size() * listOfJugglers.size()][6];
-		for (int[] circuit : listOfCircuits) {
-			for (int[] juggler : listOfJugglers) {
+		for (CircuitDataContainer circuit : listOfCircuits) {
+			for (JugglerDataContainer juggler : listOfJugglers) {
 				int dProd = Jugglers.dotProduct(circuit, juggler);
 				//
 				result[plc][0] = circuit[0];
@@ -117,37 +118,8 @@ public class Jugglers {
 		// testResult = sortListOfLists(testResult);
 	}
 
-	static int dotProduct(int[] cirArr, int[] juggArr) {
-		// The concept: (2i + 4j + 5k) * (5i + 22j + 90k) = 548
-
-		int[] vO = cirArr;
-		int[] vT = juggArr;
-
-		int I = 0;
-		int J = 0;
-		int K = 0;
-		int dP;
-
-		for (int i = 1; i < 4; i++) {
-			if (i == 1) {
-				I = vO[i] * vT[i];
-				// System.out.println("I value: " + I);
-			} else if (i == 2) {
-				J = vO[i] * vT[i];
-				// System.out.println("J value: " + J);
-			} else {
-				K = vO[i] * vT[i];
-				// System.out.println("K value: " + K);
-			}
-		}
-
-		dP = I + J + K;
-		// System.out.println("The dot product is: " + dP + " !!");
-		return dP;
-	}
-
-	static int[] processJuggStr(String juggStr) {
-		int[] recept = new int[7];
+	static JugglerDataContainer processJuggStr(String juggStr) {
+		int[] extractedValues = new int[7]; // 7 fields to populate
 
 		// String sampStr = "J J8 H:8 E:2 P:3 C1,C0,C2";
 		String sampStr = juggStr;
@@ -160,17 +132,17 @@ public class Jugglers {
 					// keep 1-end : assign to first slot in recept
 					// System.out.println("Removed 'J' from 1st position: " +
 					// val);
-					recept[i] = Integer.parseInt(val);
+					extractedValues[i] = Integer.parseInt(val);
 				} else if (i >= 1 && i < 4) {
 					// split on ':'
 					String[] scores = val.split(":");
-					recept[i] = Integer.parseInt(scores[1]);
+					extractedValues[i] = Integer.parseInt(scores[1]);
 				} else {
 					// split on ','
 					String[] circuits = val.split(",");
 					for (String tmp : circuits) {
 						tmp = tmp.replace("C", "");
-						recept[i] = Integer.parseInt(tmp);
+						extractedValues[i] = Integer.parseInt(tmp);
 						i++;
 					}
 				}
@@ -180,15 +152,15 @@ public class Jugglers {
 		}
 		logMsg.log(java.util.logging.Level.INFO,
 				"Here's our reconstituted Juggler string: ");
-		for (int j : recept) {
+		for (int j : extractedValues) {
 			System.out.print(j + " ");
 		}
+		
 		System.out.println("");
-		return recept;
-	}
+		return  
 
-	static int[] processCircStr(String circStr) {
-		int[] recept = new int[4];
+	static CircuitDataContainer processCircStr(String circStr) {
+		int[] extractedValues = new int[4];
 
 		// String sampStr = "C C2 H:7 E:6 P:4";
 		String sampStr = circStr;
@@ -202,11 +174,11 @@ public class Jugglers {
 					// keep 1-end : assign to first slot in recept
 					// System.out.println("Removed 'C' from 1st position: " +
 					// val);
-					recept[i] = Integer.parseInt(val);
+					extractedValues[i] = Integer.parseInt(val);
 				} else {
 					// split on ':'
 					String[] scores = val.split(":");
-					recept[i] = Integer.parseInt(scores[1]);
+					extractedValues[i] = Integer.parseInt(scores[1]);
 				}
 			}
 			// iterate loop counter
@@ -214,12 +186,12 @@ public class Jugglers {
 		}
 		logMsg.log(java.util.logging.Level.INFO,
 				"Here's our reconstituted Circuit string: ");
-		for (int j : recept) {
+		for (int j : extractedValues) {
 			System.out.print(j + " ");
 
 		}
 		System.out.println("");
-		return recept;
+		return new CircuitDataContainer(extractedValues[0], extractedValues[1], extractedValues[2], extractedValues[3]);
 	}
 
 	static ArrayList<int[][]> detCircuit(int[][] scores) {
@@ -232,7 +204,7 @@ public class Jugglers {
 		int[][] copiedArray2 = new int[12][6];
 
 		// ** sort by circuit **
-		scores = Jugglers.getSorted(scores, 0);
+		scores = Yodle.getSorted(scores, 0);
 
 		// ** copy circuits into newly allocated arrays **
 		System.arraycopy(scores, 0, copiedArray0, 0, 12);
@@ -240,9 +212,9 @@ public class Jugglers {
 		System.arraycopy(scores, 24, copiedArray2, 0, 12);
 
 		// ** sort by dot product score **
-		copiedArray0 = Jugglers.getSorted(copiedArray0, 1);
-		copiedArray1 = Jugglers.getSorted(copiedArray1, 1);
-		copiedArray2 = Jugglers.getSorted(copiedArray2, 1);
+		copiedArray0 = Yodle.getSorted(copiedArray0, 1);
+		copiedArray1 = Yodle.getSorted(copiedArray1, 1);
+		copiedArray2 = Yodle.getSorted(copiedArray2, 1);
 
 		// int x0 = copiedArray0.length;
 		// int x1 = copiedArray1.length;

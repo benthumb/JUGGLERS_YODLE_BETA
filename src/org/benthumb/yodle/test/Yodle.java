@@ -1,4 +1,5 @@
 package org.benthumb.yodle.test;
+
 //Algorithm ... start with circuit that has highest values and go in order winnowing all the way
 //So first task after getting a list of lists of circuits ordered by scores is to order
 //the list of lists itself based on the top score of each list it contains ... also each array list has to be secondarily ordered by
@@ -10,15 +11,29 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
+
 import org.benthumb.yodle.test.CircuitDataContainer;
 import org.benthumb.yodle.test.JugglerDataContainer;
 
 public class Yodle {
+
+	private static Comparator<JugglerDataContainer> CIRCUIT_ORDER = new Comparator<JugglerDataContainer>() {
+		// This is where the sorting happens.
+		public int compare(JugglerDataContainer o1, JugglerDataContainer o2) {
+			return o1.getCircuitNumber() - o2.getCircuitNumber();
+		}
+	};
+
+	// ** set up comparator for dot product **
+	static final Comparator<JugglerDataContainer> DOT_PRODUCT_ORDER = new Comparator<JugglerDataContainer>() {
+		public int compare(JugglerDataContainer j1, JugglerDataContainer j2) {
+			return j1.getDotProduct() - j2.getDotProduct();
+		}
+	};
 
 	static Logger logMsg = Logger.getLogger("Yodle");
 
@@ -53,20 +68,26 @@ public class Yodle {
 			e.printStackTrace();
 		}
 		int plc = 0;
-		int[][] result = new int[listOfCircuits.size() * listOfJugglers.size()][6];
-		for (CircuitDataContainer circuit : listOfCircuits) {
-			for (JugglerDataContainer juggler : listOfJugglers) {
-				int dProd = Jugglers.dotProduct(circuit, juggler);
-				//
-				result[plc][0] = circuit[0];
-				result[plc][1] = dProd;
-				result[plc][2] = juggler[0];
-				result[plc][3] = juggler[4];
-				result[plc][4] = juggler[5];
-				result[plc][5] = juggler[6];
+		// JugglerDataContainer[] result = new
+		// JugglerDataContainer[listOfCircuits.size() * listOfJugglers.size()];
+		ArrayList<JugglerDataContainer> result = new ArrayList<JugglerDataContainer>();
 
-				// increment
-				plc++;
+		for (CircuitDataContainer circuitData : listOfCircuits) {
+			for (JugglerDataContainer jugglerData : listOfJugglers) {
+
+				jugglerData.setCircuitNumber(circuitData.getCircuitNumber());
+				jugglerData.setDotProduct(circuitData);
+				try {
+					JugglerDataContainer dotProductDC = (JugglerDataContainer) jugglerData
+							.clone();
+					// result[plc] = dotProductDC;
+					// plc++;
+					result.add(dotProductDC);
+				} catch (CloneNotSupportedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		}
 
@@ -78,41 +99,34 @@ public class Yodle {
 		// System.out.print(" " + result[0][4]);
 		// System.out.println(" " + result[0][5]);
 
-		ArrayList<int[][]> testResult = Jugglers.detCircuit(result);
-		testResult = sortListOfLists(testResult); // doing the right thing?
-		testResult = filterLists(testResult);
+		ArrayList<ArrayList<JugglerDataContainer>> testResult = Yodle
+				.detCircuit(result);
+		// testResult = sortListOfLists(testResult); // doing the right thing?
+		// testResult = filterLists(testResult);
 		System.out.println("Size of our test result: " + testResult.size());
-		int[][] insideTestRslt = testResult.get(0);
-		int[][] insideTestRslt1 = testResult.get(1);
-		int[][] insideTestRslt2 = testResult.get(2);
-		System.out.println("First list of circuits: " + insideTestRslt.length);
+		ArrayList<JugglerDataContainer> insideTestRslt = testResult.get(0);
+		ArrayList<JugglerDataContainer> insideTestRslt1 = testResult.get(1);
+		ArrayList<JugglerDataContainer> insideTestRslt2 = testResult.get(2);
+		System.out.println("First list of circuits: " + insideTestRslt.size());
 		System.out
-				.println("Second list of circuits: " + insideTestRslt1.length);
-		// for (int i = 0; i < insideTestRslt.length; i++) {
-		// logMsg.log(java.util.logging.Level.INFO, "Result: ");
-		// System.out.println("Result 0: " + insideTestRslt[i][0] + " "
-		// + insideTestRslt[i][1] + " " + insideTestRslt[i][2] + " "
-		// + insideTestRslt[i][3] + " " + insideTestRslt[i][4] + " "
-		// + insideTestRslt[i][5]);
-		// System.out.println("");
-		// }
-		//
-		// for (int i = 0; i < insideTestRslt1.length; i++) {
-		// logMsg.log(java.util.logging.Level.INFO, "Result: ");
-		// System.out.println("Result 1: " + insideTestRslt1[i][0] + " "
-		// + insideTestRslt1[i][1] + " " + insideTestRslt1[i][2] + " "
-		// + insideTestRslt1[i][3] + " " + insideTestRslt1[i][4] + " "
-		// + insideTestRslt1[i][5]);
-		// System.out.println("");
-		// }
-
-		for (int i = 0; i < insideTestRslt2.length; i++) {
+				.println("Second list of circuits: " + insideTestRslt1.size());
+		for (JugglerDataContainer juggArr : insideTestRslt) {
 			logMsg.log(java.util.logging.Level.INFO, "Result: ");
-			System.out.print("Result 2: " + insideTestRslt2[i][0] + " "
-					+ insideTestRslt2[i][1] + " " + insideTestRslt2[i][2] + " "
-					+ insideTestRslt2[i][3] + " " + insideTestRslt2[i][4] + " "
-					+ insideTestRslt2[i][5]);
-			System.out.println("");
+			System.out.println("Circuit number: " + juggArr.getCircuitNumber());
+			System.out.println("Dot product score: " + juggArr.getDotProduct());
+			System.out.println("Juggler number: " + juggArr.getJugglerNumber());
+		}
+		for (JugglerDataContainer juggArr1 : insideTestRslt1) {
+			logMsg.log(java.util.logging.Level.INFO, "Result: ");
+			System.out.println("Circuit number: " + juggArr1.getCircuitNumber());
+			System.out.println("Dot product score: " + juggArr1.getDotProduct());
+			System.out.println("Juggler number: " + juggArr1.getJugglerNumber());
+		}
+		for (JugglerDataContainer juggArr2 : insideTestRslt2) {
+			logMsg.log(java.util.logging.Level.INFO, "Result: ");
+			System.out.println("Circuit number: " + juggArr2.getCircuitNumber());
+			System.out.println("Dot product score: " + juggArr2.getDotProduct());
+			System.out.println("Juggler number: " + juggArr2.getJugglerNumber());
 		}
 
 		// testResult = sortListOfLists(testResult);
@@ -155,9 +169,20 @@ public class Yodle {
 		for (int j : extractedValues) {
 			System.out.print(j + " ");
 		}
-		
+
 		System.out.println("");
-		return  
+
+		// Initialize and populate juggler data container ...
+		JugglerDataContainer jdc = new JugglerDataContainer();
+		jdc.setJugglerNumber(extractedValues[0]);
+		jdc.setJugglerHandToEyeCoordination(extractedValues[1]);
+		jdc.setJugglerEndurance(extractedValues[2]);
+		jdc.setJugglerPizzazz(extractedValues[3]);
+		jdc.setJugglerCircuitPreferenceFirst(extractedValues[4]);
+		jdc.setJugglerCircuitPreferenceSecond(extractedValues[5]);
+		jdc.setJugglerCircuitPreferenceThird(extractedValues[6]);
+		return jdc;
+	}
 
 	static CircuitDataContainer processCircStr(String circStr) {
 		int[] extractedValues = new int[4];
@@ -191,52 +216,51 @@ public class Yodle {
 
 		}
 		System.out.println("");
-		return new CircuitDataContainer(extractedValues[0], extractedValues[1], extractedValues[2], extractedValues[3]);
+		// Initialize and populate circuit data ...
+		CircuitDataContainer cdc = new CircuitDataContainer();
+		cdc.setCircuitNumber(extractedValues[0]);
+		cdc.setJugglerHandToEyeCoordination(extractedValues[1]);
+		cdc.setJugglerEndurance(extractedValues[2]);
+		cdc.setJugglerPizzazz(extractedValues[3]);
+		return cdc;
 	}
 
-	static ArrayList<int[][]> detCircuit(int[][] scores) {
+	static ArrayList<ArrayList<JugglerDataContainer>> detCircuit(
+			ArrayList<JugglerDataContainer> scores) {
+		// static ArrayList<JugglerDataContainer[]> detCircuit(
+		// JugglerDataContainer[] scores) {
 		// ** add all copied arrays here **
-		ArrayList<int[][]> circuitL = new ArrayList<int[][]>();
+		ArrayList<ArrayList<JugglerDataContainer>> circuitL = new ArrayList<ArrayList<JugglerDataContainer>>();
 
 		// ** need to dynamically calculate # partitions **
-		int[][] copiedArray0 = new int[12][6];
-		int[][] copiedArray1 = new int[12][6];
-		int[][] copiedArray2 = new int[12][6];
+		List<JugglerDataContainer>copiedArray0 = new ArrayList<JugglerDataContainer>();
+		List<JugglerDataContainer>copiedArray1 = new ArrayList<JugglerDataContainer>();
+		List<JugglerDataContainer>copiedArray2 = new ArrayList<JugglerDataContainer>();
+
+		copiedArray0 = new ArrayList<JugglerDataContainer>(scores.subList(0, 11));
+		copiedArray1 = new ArrayList<JugglerDataContainer>(scores.subList(12, 23));
+		copiedArray2 = new ArrayList<JugglerDataContainer>(scores.subList(24, 35));
 
 		// ** sort by circuit **
-		scores = Yodle.getSorted(scores, 0);
-
-		// ** copy circuits into newly allocated arrays **
-		System.arraycopy(scores, 0, copiedArray0, 0, 12);
-		System.arraycopy(scores, 12, copiedArray1, 0, 12);
-		System.arraycopy(scores, 24, copiedArray2, 0, 12);
-
+		// scores = Yodle.getSorted(scores);
+		Collections.sort(scores, CIRCUIT_ORDER);
+		
 		// ** sort by dot product score **
-		copiedArray0 = Yodle.getSorted(copiedArray0, 1);
-		copiedArray1 = Yodle.getSorted(copiedArray1, 1);
-		copiedArray2 = Yodle.getSorted(copiedArray2, 1);
+		Collections.sort(copiedArray0, DOT_PRODUCT_ORDER);
+		Collections.sort(copiedArray1, DOT_PRODUCT_ORDER);
+		Collections.sort(copiedArray2, DOT_PRODUCT_ORDER);
 
 		// int x0 = copiedArray0.length;
 		// int x1 = copiedArray1.length;
 		// int x2 = copiedArray2.length;
 
-		circuitL.add(copiedArray0);
-		circuitL.add(copiedArray1);
-		circuitL.add(copiedArray2);
+		circuitL.add((ArrayList<JugglerDataContainer>) copiedArray0);
+		circuitL.add((ArrayList<JugglerDataContainer>) copiedArray1);
+		circuitL.add((ArrayList<JugglerDataContainer>) copiedArray2);
 
-		circuitL = sortListOfLists(circuitL);
+		// circuitL = sortListOfLists(circuitL);
 
 		return circuitL;
-	}
-
-	private static int[][] getSorted(int[][] arrToSort, final int col) {
-		Arrays.sort(arrToSort, new Comparator<int[]>() {
-			@Override
-			public int compare(int[] o1, int[] o2) {
-				return o2[col] - o1[col];
-			}
-		});
-		return arrToSort;
 	}
 
 	private static ArrayList<int[][]> sortListOfLists(ArrayList<int[][]> lOl) {

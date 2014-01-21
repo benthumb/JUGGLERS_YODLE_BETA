@@ -10,65 +10,59 @@ package org.benthumb.yodle.test;
  * @author Paul
  * 
  */
-public class JugglerDataContainer extends CircuitDataContainer {
+public class JugglerDataContainer extends CircuitDataContainer implements Cloneable{
 
 	/**
 	 * Juggler number
 	 */
-	private final int jugglerNumber;
+	private int jugglerNumber;
 	/**
 	 * Juggler's first preference circuit
 	 */
-	private final int jugglerCircuitPreferenceFirst;
+	private int jugglerCircuitPreferenceFirst;
 	/**
 	 * Juggler's second preference circuit
 	 */
-	private final int jugglerCircuitPreferenceSecond;
+	private int jugglerCircuitPreferenceSecond;
 	/**
 	 * Juggler's first preference circuit
 	 */
-	private final int jugglerCircuitPreferenceThird;
+	private int jugglerCircuitPreferenceThird;
 	/**
 	 * dot product Circuit vs. Juggler
 	 */
 	private int dotProduct = 0;
 
-	/**
-	 * @param circuitNumber
-	 * @param jugglerHandToEyeCoordination
-	 * @param jugglerEndurance
-	 * @param jugglerPizzazz
-	 * @param jugglerCircuitPreferenceFirst
-	 * @param jugglerCircuitPreferenceSecond
-	 * @param jugglerCircuitPreferenceThird
-	 */
-	public JugglerDataContainer(int jugglerNumber, int circuitNumber,
-			int jugglerHandToEyeCoordination, int jugglerEndurance,
-			int jugglerPizzazz, int jugglerCircuitPreferenceFirst,
-			int jugglerCircuitPreferenceSecond,
-			int jugglerCircuitPreferenceThird) {
-		super(circuitNumber, jugglerHandToEyeCoordination, jugglerEndurance,
-				jugglerPizzazz);
-		this.jugglerNumber = jugglerNumber;
-		this.jugglerCircuitPreferenceFirst = jugglerCircuitPreferenceFirst;
-		this.jugglerCircuitPreferenceSecond = jugglerCircuitPreferenceSecond;
-		this.jugglerCircuitPreferenceThird = jugglerCircuitPreferenceThird;
+	public int getJugglerNumber() {
+		return jugglerNumber;
 	}
 
-	public int getJugglerNumber() {
-		return this.jugglerNumber;
+	public void setJugglerNumber(int jugglerNumber) {
+		this.jugglerNumber = jugglerNumber;
 	}
 
 	public int getJugglerCircuitPreferenceFirst() {
 		return jugglerCircuitPreferenceFirst;
 	}
 
+	public void setJugglerCircuitPreferenceFirst(int jugglerCircuitPreferenceFirst) {
+		this.jugglerCircuitPreferenceFirst = jugglerCircuitPreferenceFirst;
+	}
+
 	public int getJugglerCircuitPreferenceSecond() {
 		return jugglerCircuitPreferenceSecond;
 	}
 
+	public void setJugglerCircuitPreferenceSecond(int jugglerCircuitPreferenceSecond) {
+		this.jugglerCircuitPreferenceSecond = jugglerCircuitPreferenceSecond;
+	}
+
 	public int getJugglerCircuitPreferenceThird() {
 		return jugglerCircuitPreferenceThird;
+	}
+
+	public void setJugglerCircuitPreferenceThird(int jugglerCircuitPreferenceThird) {
+		this.jugglerCircuitPreferenceThird = jugglerCircuitPreferenceThird;
 	}
 
 	public void setDotProduct(CircuitDataContainer circuitDataContainer) {
@@ -100,4 +94,18 @@ public class JugglerDataContainer extends CircuitDataContainer {
 		return dP;
 
 	}
+	
+	@Override // from p. 579 of Textbook ...
+	public Object clone()throws CloneNotSupportedException{
+		return super.clone();
+	}
+
+//	@Override
+//	public int compare(Object arg0, Object arg1) {
+//		// TODO Auto-generated method stub
+//		JugglerDataContainer o1 = (JugglerDataContainer)arg0;
+//		JugglerDataContainer o2 = (JugglerDataContainer)arg1;
+//		
+//		return o1.getCircuitNumber() - o2.getCircuitNumber();
+//	}
 }

@@ -5,44 +5,42 @@ public class CircuitDataContainer {
 	/**
 	 * Circuit number
 	 */
-	private final int circuitNumber;
+	private int circuitNumber;
 	/**
 	 * Juggler's hand to eye coordination
 	 */
-	private final int jugglerHandToEyeCoordination;
+	private int jugglerHandToEyeCoordination;
 	/**
 	 * Juggler's endurance
 	 */
-	private final int jugglerEndurance;
+	private int jugglerEndurance;
 	/**
 	 * Juggler's pizzazz
 	 */
-	private final int jugglerPizzazz;
-
-	public CircuitDataContainer(int circuitNumber,
-			int jugglerHandToEyeCoordination, int jugglerEndurance,
-			int jugglerPizzazz) {
-		super();
-		this.circuitNumber = circuitNumber;
-		this.jugglerHandToEyeCoordination = jugglerHandToEyeCoordination;
-		this.jugglerEndurance = jugglerEndurance;
-		this.jugglerPizzazz = jugglerPizzazz;
-	}
-
+	private int jugglerPizzazz;
+	
 	public int getCircuitNumber() {
 		return circuitNumber;
 	}
-
+	public void setCircuitNumber(int circuitNumber) {
+		this.circuitNumber = circuitNumber;
+	}
 	public int getJugglerHandToEyeCoordination() {
 		return jugglerHandToEyeCoordination;
 	}
-
+	public void setJugglerHandToEyeCoordination(int jugglerHandToEyeCoordination) {
+		this.jugglerHandToEyeCoordination = jugglerHandToEyeCoordination;
+	}
 	public int getJugglerEndurance() {
 		return jugglerEndurance;
 	}
-
+	public void setJugglerEndurance(int jugglerEndurance) {
+		this.jugglerEndurance = jugglerEndurance;
+	}
 	public int getJugglerPizzazz() {
 		return jugglerPizzazz;
 	}
-
+	public void setJugglerPizzazz(int jugglerPizzazz) {
+		this.jugglerPizzazz = jugglerPizzazz;
+	}
 }

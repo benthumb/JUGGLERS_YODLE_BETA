@@ -87,7 +87,6 @@ public class Yodle {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 			}
 		}
 
@@ -101,7 +100,7 @@ public class Yodle {
 
 		ArrayList<ArrayList<JugglerDataContainer>> testResult = Yodle
 				.detCircuit(result);
-		// testResult = sortListOfLists(testResult); // doing the right thing?
+		testResult = sortListOfLists(testResult); // doing the right thing?
 		// testResult = filterLists(testResult);
 		System.out.println("Size of our test result: " + testResult.size());
 		ArrayList<JugglerDataContainer> insideTestRslt = testResult.get(0);
@@ -110,23 +109,32 @@ public class Yodle {
 		System.out.println("First list of circuits: " + insideTestRslt.size());
 		System.out
 				.println("Second list of circuits: " + insideTestRslt1.size());
+		int I1 = 0;
 		for (JugglerDataContainer juggArr : insideTestRslt) {
 			logMsg.log(java.util.logging.Level.INFO, "Result: ");
 			System.out.println("Circuit number: " + juggArr.getCircuitNumber());
 			System.out.println("Dot product score: " + juggArr.getDotProduct());
 			System.out.println("Juggler number: " + juggArr.getJugglerNumber());
+			System.out.println("count: " + I1);
+			I1++;
 		}
+		int I2 = 0;
 		for (JugglerDataContainer juggArr1 : insideTestRslt1) {
 			logMsg.log(java.util.logging.Level.INFO, "Result: ");
 			System.out.println("Circuit number: " + juggArr1.getCircuitNumber());
 			System.out.println("Dot product score: " + juggArr1.getDotProduct());
 			System.out.println("Juggler number: " + juggArr1.getJugglerNumber());
+			System.out.println("count: " + I2);
+			I2++;
 		}
+		int I3 = 0;
 		for (JugglerDataContainer juggArr2 : insideTestRslt2) {
 			logMsg.log(java.util.logging.Level.INFO, "Result: ");
 			System.out.println("Circuit number: " + juggArr2.getCircuitNumber());
 			System.out.println("Dot product score: " + juggArr2.getDotProduct());
 			System.out.println("Juggler number: " + juggArr2.getJugglerNumber());
+			System.out.println("count: " + I3);
+			I3++;
 		}
 
 		// testResult = sortListOfLists(testResult);
@@ -236,10 +244,17 @@ public class Yodle {
 		List<JugglerDataContainer>copiedArray0 = new ArrayList<JugglerDataContainer>();
 		List<JugglerDataContainer>copiedArray1 = new ArrayList<JugglerDataContainer>();
 		List<JugglerDataContainer>copiedArray2 = new ArrayList<JugglerDataContainer>();
-
-		copiedArray0 = new ArrayList<JugglerDataContainer>(scores.subList(0, 11));
-		copiedArray1 = new ArrayList<JugglerDataContainer>(scores.subList(12, 23));
-		copiedArray2 = new ArrayList<JugglerDataContainer>(scores.subList(24, 35));
+        
+		// ** fromIndex, inclusive, and toIndex, exclusive (exception last pos.) **
+		copiedArray0 = new ArrayList<JugglerDataContainer>(scores.subList(0, 12));
+		copiedArray1 = new ArrayList<JugglerDataContainer>(scores.subList(12, 24));
+		copiedArray2 = new ArrayList<JugglerDataContainer>(scores.subList(24, 36));
+		
+		// ** check lengths of copied arrays **
+		logMsg.log(java.util.logging.Level.INFO,"************* scores: " + scores.size());
+		logMsg.log(java.util.logging.Level.INFO,"************* copiedArray0: " + copiedArray0.size());
+		logMsg.log(java.util.logging.Level.INFO,"************* copiedArray1: " + copiedArray1.size());
+		logMsg.log(java.util.logging.Level.INFO,"************* copiedArray2: " + copiedArray2.size());
 
 		// ** sort by circuit **
 		// scores = Yodle.getSorted(scores);
@@ -263,25 +278,28 @@ public class Yodle {
 		return circuitL;
 	}
 
-	private static ArrayList<int[][]> sortListOfLists(ArrayList<int[][]> lOl) {
-		Collections.sort(lOl, new Comparator<int[][]>() {
+	@SuppressWarnings("unchecked")
+	private static ArrayList<ArrayList<JugglerDataContainer>> sortListOfLists(ArrayList<ArrayList<JugglerDataContainer>> lOl) {
+		Collections.sort(lOl, new Comparator() {
 			@Override
-			public int compare(int[][] o1, int[][] o2) {
-				return o2[0][1] - o1[0][1];
+			public int compare(final Object o1, final Object o2) {
+				final ArrayList<JugglerDataContainer> lst1 = (ArrayList<JugglerDataContainer>)o1;
+				final ArrayList<JugglerDataContainer> lst2 = (ArrayList<JugglerDataContainer>)o2;
+				return lst2.get(lst2.size()-1).getDotProduct() - lst1.get(lst1.size()-1).getDotProduct();
 			}
 		});
-		int[][] thing1 = lOl.get(0);
-		int[][] thing2 = lOl.get(1);
-		int[][] thing3 = lOl.get(2);
-		// int[][] thing4 = lOl.get(3);
+		JugglerDataContainer thing1 = lOl.get(0).get(lOl.get(0).size()-1);
+		JugglerDataContainer thing2 = lOl.get(1).get(lOl.get(0).size()-1);
+		JugglerDataContainer thing3 = lOl.get(2).get(lOl.get(0).size()-1);
+//		 int[][] thing4 = lOl.get(3);
 
-		logMsg.log(java.util.logging.Level.INFO, "Got val 1: " + thing1[0][0]);
-		logMsg.log(java.util.logging.Level.INFO, "Got val 2: " + thing2[0][0]);
-		logMsg.log(java.util.logging.Level.INFO, "Got val 3: " + thing3[0][0]);
+		logMsg.log(java.util.logging.Level.INFO, "Got val 1: " + thing1.getDotProduct());
+		logMsg.log(java.util.logging.Level.INFO, "Got val 2: " + thing2.getDotProduct());
+		logMsg.log(java.util.logging.Level.INFO, "Got val 3: " + thing3.getDotProduct());
 		// logMsg.log(java.util.logging.Level.INFO, "Got val 4: " +
 		// thing4[0][0]);
 
-		anaList(lOl);
+		//anaList(lOl);
 
 		return lOl;
 	}

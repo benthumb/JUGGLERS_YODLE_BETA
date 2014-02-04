@@ -32,6 +32,18 @@ public class JugglerDataContainer extends CircuitDataContainer implements Clonea
 	 * dot product Circuit vs. Juggler
 	 */
 	private int dotProduct = 0;
+	/**
+	 * Circuit assignment: default is -1, i.e., unassigned
+	 */
+	private int assignedCircuit = -1;
+
+	public int getAssignedCircuit() {
+		return assignedCircuit;
+	}
+
+	public void setAssignedCircuit(int assignedCircuit) {
+		this.assignedCircuit = assignedCircuit;
+	}
 
 	public int getJugglerNumber() {
 		return jugglerNumber;

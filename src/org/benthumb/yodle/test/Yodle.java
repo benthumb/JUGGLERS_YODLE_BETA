@@ -100,7 +100,7 @@ public class Yodle {
 
 		ArrayList<ArrayList<JugglerDataContainer>> testResult = Yodle
 				.detCircuit(result);
-		testResult = sortListOfLists(testResult); // doing the right thing?
+		//testResult = sortListOfLists(testResult); // doing the right thing?
 		// testResult = filterLists(testResult);
 		System.out.println("Size of our test result: " + testResult.size());
 		ArrayList<JugglerDataContainer> insideTestRslt = testResult.get(0);
@@ -115,6 +115,7 @@ public class Yodle {
 			System.out.println("Circuit number: " + juggArr.getCircuitNumber());
 			System.out.println("Dot product score: " + juggArr.getDotProduct());
 			System.out.println("Juggler number: " + juggArr.getJugglerNumber());
+			System.out.println("Assigned circuit: " + juggArr.getAssignedCircuit());
 			System.out.println("count: " + I1);
 			I1++;
 		}
@@ -124,6 +125,7 @@ public class Yodle {
 			System.out.println("Circuit number: " + juggArr1.getCircuitNumber());
 			System.out.println("Dot product score: " + juggArr1.getDotProduct());
 			System.out.println("Juggler number: " + juggArr1.getJugglerNumber());
+			System.out.println("Assigned circuit: " + juggArr1.getAssignedCircuit());
 			System.out.println("count: " + I2);
 			I2++;
 		}
@@ -133,6 +135,7 @@ public class Yodle {
 			System.out.println("Circuit number: " + juggArr2.getCircuitNumber());
 			System.out.println("Dot product score: " + juggArr2.getDotProduct());
 			System.out.println("Juggler number: " + juggArr2.getJugglerNumber());
+			System.out.println("Assigned circuit: " + juggArr2.getAssignedCircuit());
 			System.out.println("count: " + I3);
 			I3++;
 		}
@@ -273,7 +276,7 @@ public class Yodle {
 		circuitL.add((ArrayList<JugglerDataContainer>) copiedArray1);
 		circuitL.add((ArrayList<JugglerDataContainer>) copiedArray2);
 
-		// circuitL = sortListOfLists(circuitL);
+		circuitL = sortListOfLists(circuitL);
 
 		return circuitL;
 	}
@@ -299,31 +302,20 @@ public class Yodle {
 		// logMsg.log(java.util.logging.Level.INFO, "Got val 4: " +
 		// thing4[0][0]);
 
-		//anaList(lOl);
+		anaList(lOl);
 
 		return lOl;
 	}
 
-	private static void anaList(ArrayList<int[][]> targL) {
-		// analyze: current circuit vs preference
-		int numAssJuggs = (12 / targL.size());
-		ArrayList<int[][]> remainder = new ArrayList<int[][]>();
-		ArrayList<int[][]> assigned = new ArrayList<int[][]>();
-		for (int i = 0; i < targL.size(); i++) {
-			int[][] testCircuit = targL.get(i);
-			for (int x = 0; x < numAssJuggs; x++) {
-				if (testCircuit[x][0] == testCircuit[x][3]) {
-					assigned.add(testCircuit);
-					// logMsg.log(java.util.logging.Level.INFO,
-					// "Assign Juggler: "
-					// + testCircuit[x][2] + " to circuit "
-					// + testCircuit[x][0]);
-				} else {
-					remainder.add(testCircuit);
+	private static void anaList(ArrayList<ArrayList<JugglerDataContainer>> targL) {
+		for (ArrayList<JugglerDataContainer> lOl : targL) {
+			for(int l = lOl.size()-1; l >= 0; l--){
+				JugglerDataContainer jData = lOl.get(l);
+				int currCircuit = jData.getCircuitNumber();
+				if(currCircuit == jData.getJugglerCircuitPreferenceFirst()){
+					jData.setAssignedCircuit(currCircuit);
 				}
 			}
-			int sze = remainder.size();
-			// int[][]
 		}
 	}
 

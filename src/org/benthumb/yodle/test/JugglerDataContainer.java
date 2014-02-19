@@ -36,6 +36,21 @@ public class JugglerDataContainer extends CircuitDataContainer implements Clonea
 	 * Circuit assignment: default is -1, i.e., unassigned
 	 */
 	private int assignedCircuit = -1;
+	/**
+	 * Threshold determined by following ratio: \frac{Standard Deviation}{Mean - Score} -- 
+	 * for time being set at 1.5 , i.e., ratio < 1.5 -> isWeighted = 0 : preference
+	 * will be given to juggler w/ a higher ratio/score w/ lower preference for the 
+	 * current circuit
+	 */
+	private int isWeighted = 0;
+
+	public int getIsWeighted() {
+		return isWeighted;
+	}
+
+	public void setIsWeighted(int isWeighted) {
+		this.isWeighted = isWeighted;
+	}
 
 	public int getAssignedCircuit() {
 		return assignedCircuit;

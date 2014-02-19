@@ -11,8 +11,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -34,9 +36,22 @@ public class Yodle {
 			return j1.getDotProduct() - j2.getDotProduct();
 		}
 	};
-
+	
+	// ** Logging **
 	static Logger logMsg = Logger.getLogger("Yodle");
-
+	
+	// ** Scores : needed for calculating standard deviation **
+	static int[] storedScores = new int[12];
+	
+	// ** Should be reset at 12 **
+	static int numberOfScoresStored = 0;
+	
+	// ** TBD **
+	static HashMap<Integer, Double> collectedMeans = new HashMap<Integer, Double>();
+	
+	// ** Use as basis to calculate standard deviation **
+	static HashMap<Integer, Double> collectedStdDeviations = new HashMap<Integer, Double>();
+	
 	/**
 	 * @param args
 	 */
@@ -71,12 +86,29 @@ public class Yodle {
 		// JugglerDataContainer[] result = new
 		// JugglerDataContainer[listOfCircuits.size() * listOfJugglers.size()];
 		ArrayList<JugglerDataContainer> result = new ArrayList<JugglerDataContainer>();
-
+		
 		for (CircuitDataContainer circuitData : listOfCircuits) {
+			int cirNo = circuitData.getCircuitNumber();
 			for (JugglerDataContainer jugglerData : listOfJugglers) {
-
-				jugglerData.setCircuitNumber(circuitData.getCircuitNumber());
+				jugglerData.setCircuitNumber(cirNo);
 				jugglerData.setDotProduct(circuitData);
+				
+				// ** gather standard deviations : **
+				// ** TBD : need to store median/average in order to take ratio btwn **
+				// ** a) STD DEV and b) difference btwn score and average **
+				storedScores[numberOfScoresStored] = jugglerData.getDotProduct();
+				if(numberOfScoresStored == 11){
+					Double calculatedMean = Utilities.calculateMean(storedScores);
+					logMsg.log(java.util.logging.Level.INFO, "Calculated mean: " + calculatedMean);
+					int circuitNo = jugglerData.getAssignedCircuit();
+					collectedMeans.put(new Integer(circuitNo), calculatedMean);
+					collectedStdDeviations.put(new Integer(circuitNo),Utilities.calculateStdDev(storedScores, calculatedMean));
+					numberOfScoresStored = 0;
+					Arrays.fill(storedScores, 0);
+				}else{
+					++numberOfScoresStored;
+				}
+				
 				try {
 					JugglerDataContainer dotProductDC = (JugglerDataContainer) jugglerData
 							.clone();
@@ -88,6 +120,8 @@ public class Yodle {
 					e.printStackTrace();
 				}
 			}
+			//logMsg.log(java.util.logging.Level.INFO, "*** Scores: " + Utilities.arrayToString(storedScores));
+			logMsg.log(java.util.logging.Level.INFO, "*** Scores: " + Utilities.arrayToString(storedScores));
 		}
 
 		// System.out.println("Test result of result: " + result.length);
@@ -306,14 +340,50 @@ public class Yodle {
 
 		return lOl;
 	}
-
+    // assign a weight to each juggler based on score/preference/standard deviation from mean... 
+	// may have to calculate mean & standard deviation: if a juggler comes in below a certain threshold
+	// then will get bumped from 1st preference in favor of juggler w/ higher score and 2nd preference for circuit in question
+	// ...
 	private static void anaList(ArrayList<ArrayList<JugglerDataContainer>> targL) {
 		for (ArrayList<JugglerDataContainer> lOl : targL) {
+			int limit = 0;
+			Double stdDev = 0.0;
+			Double mean = 0.0;
+			int[] scores = new int[4];
 			for(int l = lOl.size()-1; l >= 0; l--){
 				JugglerDataContainer jData = lOl.get(l);
 				int currCircuit = jData.getCircuitNumber();
-				if(currCircuit == jData.getJugglerCircuitPreferenceFirst()){
+				// ** determine if weighted / given preferential treatment **
+				stdDev = collectedStdDeviations.get(currCircuit);
+				mean = collectedMeans.get(currCircuit);
+				
+				//jData.getDotProduct();
+				//jData.setIsWeighted(isWeighted);
+				if(currCircuit == jData.getJugglerCircuitPreferenceFirst() 
+						&& jData.getAssignedCircuit() == -1 
+						&& limit != 4){
 					jData.setAssignedCircuit(currCircuit);
+					limit++;
+					updateJugglerStatus(targL,jData.getJugglerNumber(),currCircuit);
+					scores[limit-1] = jData.getDotProduct();
+				}
+				if(limit < 4 && l == 0){
+					logMsg.log(java.util.logging.Level.INFO, "Not all eligible jugglers have been assigned!" );
+					logMsg.log(java.util.logging.Level.INFO, "score 0: " + scores[0]);
+					logMsg.log(java.util.logging.Level.INFO, "score 1: " + scores[1]);
+					logMsg.log(java.util.logging.Level.INFO, "score 2: " + scores[2]);
+					logMsg.log(java.util.logging.Level.INFO, "score 3: " + scores[3]);
+				}
+			}
+		}
+	}
+
+	private static void updateJugglerStatus(
+			ArrayList<ArrayList<JugglerDataContainer>> targL, int i, int currCircuit) {
+		for (ArrayList<JugglerDataContainer> lOl : targL) {
+			for(JugglerDataContainer jDC : lOl){
+				if(jDC.getJugglerNumber() == i && jDC.getAssignedCircuit() == -1){
+					jDC.setAssignedCircuit(currCircuit);
 				}
 			}
 		}

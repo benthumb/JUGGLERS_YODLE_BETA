@@ -1,4 +1,4 @@
-package org.benthumb.yodle.test;
+package org.benthumb.yodle;
 
 /*
  hand to eye coordination (H), 
@@ -42,15 +42,7 @@ public class JugglerDataContainer extends CircuitDataContainer implements Clonea
 	 * will be given to juggler w/ a higher ratio/score w/ lower preference for the 
 	 * current circuit
 	 */
-	private int isWeighted = 0;
-
-	public int getIsWeighted() {
-		return isWeighted;
-	}
-
-	public void setIsWeighted(int isWeighted) {
-		this.isWeighted = isWeighted;
-	}
+	public boolean weighted = false;
 
 	public int getAssignedCircuit() {
 		return assignedCircuit;

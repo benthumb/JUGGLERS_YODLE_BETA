@@ -1,4 +1,4 @@
-package org.benthumb.yodle.test;
+package org.benthumb.yodle;
 
 // Algorithm ... start with circuit that has highest values and go in order winnowing all the way
 // So first task after getting a list of lists of circuits ordered by scores is to order

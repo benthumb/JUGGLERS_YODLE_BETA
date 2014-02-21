@@ -1,4 +1,4 @@
-package org.benthumb.yodle.test;
+package org.benthumb.yodle;
 
 import java.util.logging.Logger;
 

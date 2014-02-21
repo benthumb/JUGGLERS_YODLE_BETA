@@ -1,4 +1,4 @@
-package org.benthumb.yodle.test;
+package org.benthumb.yodle;
 
 //Algorithm ... start with circuit that has highest values and go in order winnowing all the way
 //So first task after getting a list of lists of circuits ordered by scores is to order
@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.benthumb.yodle.test.CircuitDataContainer;
-import org.benthumb.yodle.test.JugglerDataContainer;
+import org.benthumb.yodle.CircuitDataContainer;
+import org.benthumb.yodle.JugglerDataContainer;
 
 public class Yodle {
 
@@ -100,7 +100,7 @@ public class Yodle {
 				if(numberOfScoresStored == 11){
 					Double calculatedMean = Utilities.calculateMean(storedScores);
 					logMsg.log(java.util.logging.Level.INFO, "Calculated mean: " + calculatedMean);
-					int circuitNo = jugglerData.getAssignedCircuit();
+					int circuitNo = jugglerData.getCircuitNumber();
 					collectedMeans.put(new Integer(circuitNo), calculatedMean);
 					collectedStdDeviations.put(new Integer(circuitNo),Utilities.calculateStdDev(storedScores, calculatedMean));
 					numberOfScoresStored = 0;
@@ -349,6 +349,7 @@ public class Yodle {
 			int limit = 0;
 			Double stdDev = 0.0;
 			Double mean = 0.0;
+			int dProd = 0;
 			int[] scores = new int[4];
 			for(int l = lOl.size()-1; l >= 0; l--){
 				JugglerDataContainer jData = lOl.get(l);
@@ -356,12 +357,13 @@ public class Yodle {
 				// ** determine if weighted / given preferential treatment **
 				stdDev = collectedStdDeviations.get(currCircuit);
 				mean = collectedMeans.get(currCircuit);
-				
-				//jData.getDotProduct();
-				//jData.setIsWeighted(isWeighted);
+				dProd = jData.getDotProduct();
+				jData.weighted = Math.abs(stdDev/(mean - dProd)) > 2 ? true:false;
+				logMsg.log(java.util.logging.Level.INFO, ">>> Ratio: " + Math.abs(stdDev/(mean - dProd)));
 				if(currCircuit == jData.getJugglerCircuitPreferenceFirst() 
 						&& jData.getAssignedCircuit() == -1 
-						&& limit != 4){
+						&& limit != 4
+						&& jData.weighted){
 					jData.setAssignedCircuit(currCircuit);
 					limit++;
 					updateJugglerStatus(targL,jData.getJugglerNumber(),currCircuit);

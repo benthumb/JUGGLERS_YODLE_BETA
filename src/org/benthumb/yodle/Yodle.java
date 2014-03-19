@@ -37,7 +37,7 @@ public class Yodle {
 	// Juggler and Circuit : first initials
 	static final String INITIAL_J = "J";
 	static final String INITIAL_C = "C";
-	
+
 	// final position in array holding ... juggler data ?
 	static final int MAX = 11;
 
@@ -114,12 +114,12 @@ public class Yodle {
 				} else {
 					++fNumberOfStoredScores;
 				}
-					fInitializedListOfJugglers.add(jugglerData);
+				fInitializedListOfJugglers.add(jugglerData);
 			}
 		}
-			logMsg.log(java.util.logging.Level.INFO,"*** Scores: " + Utilities.arrayToString(fStoredScores));
+		logMsg.log(java.util.logging.Level.INFO,"*** Scores: " + Utilities.arrayToString(fStoredScores));
 	}
-			
+
 	static JugglerDataContainer processJuggStr(String juggStr) {
 		int[] extractedValues = new int[7]; // 7 fields to populate
 
@@ -249,7 +249,7 @@ public class Yodle {
 				return lst2.get(lst2.size() - 1).getDotProduct() - lst1.get(lst1.size() - 1).getDotProduct();
 			}
 		});
-		
+
 		JugglerDataContainer thing1 = lOl.get(0).get(lOl.get(0).size() - 1);
 		JugglerDataContainer thing2 = lOl.get(1).get(lOl.get(0).size() - 1);
 		JugglerDataContainer thing3 = lOl.get(2).get(lOl.get(0).size() - 1);
@@ -280,29 +280,39 @@ public class Yodle {
 			for (int l = lOl.size() - 1; l >= 0; l--) {
 				JugglerDataContainer jData = lOl.get(l);
 				int currCircuit = jData.getCircuitNumber();
-				
+
 				// ** determine if weighted / given preferential treatment **
 				stdDev = fCollectedStdDeviations.get(currCircuit);
 				mean = fCollectedMeans.get(currCircuit);
 				dProd = jData.getDotProduct();
 				jData.weighted = Math.abs(stdDev / (mean - dProd)) > 2 ? true : false;
 				logMsg.log(java.util.logging.Level.INFO, ">>> Ratio: " + Math.abs(stdDev / (mean - dProd)));
-				
-				// ** 
+
+				// ** First pass assignment filter **
 				if (currCircuit == jData.getJugglerCircuitPreferenceFirst()
-						&& jData.getAssignedCircuit() == -1 && limit != 4
-						&& jData.weighted) {
+						&& jData.getAssignedCircuit() == -1 && limit != 4){
 					jData.setAssignedCircuit(currCircuit);
 					limit++;
 					updateJugglerStatus(targL, jData.getJugglerNumber(),currCircuit);
 					scores[limit - 1] = jData.getDotProduct();
 				}
+				// ** Second pass assignment filter **
 				if (limit < 4 && l == 0) {
 					logMsg.log(java.util.logging.Level.INFO, "Not all eligible jugglers have been assigned!");
 					logMsg.log(java.util.logging.Level.INFO, "score 0: " + scores[0]);
 					logMsg.log(java.util.logging.Level.INFO, "score 1: " + scores[1]);
 					logMsg.log(java.util.logging.Level.INFO, "score 2: " + scores[2]);
 					logMsg.log(java.util.logging.Level.INFO, "score 3: " + scores[3]);
+					for (int m = lOl.size() - 1; m >= 0; m--) {
+						if (currCircuit == jData.getJugglerCircuitPreferenceSecond()
+								&& jData.getAssignedCircuit() == -1
+								&& jData.weighted) {
+							jData.setAssignedCircuit(currCircuit);
+							limit++;
+							updateJugglerStatus(targL, jData.getJugglerNumber(),currCircuit);
+							scores[limit - 1] = jData.getDotProduct();
+						}
+					}
 				}
 			}
 		}

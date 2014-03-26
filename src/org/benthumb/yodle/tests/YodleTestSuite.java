@@ -10,13 +10,13 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ YodleTestCase1.class })
 public class YodleTestSuite {
 
-	@BeforeClass
-	public static void setUpClass() {
+  @BeforeClass
+  public static void setUpClass() {
 
-	}
+  }
 
-	@AfterClass
-	public static void tearDownClass() {
+  @AfterClass
+  public static void tearDownClass() {
 
-	}
+  }
 }

@@ -48,8 +48,11 @@ public class Yodle {
   static List<JugglerDataContainer> fListOfJugglers = new ArrayList<JugglerDataContainer>();
 
   // Circuit / juggler data
+//  static File dataFile = new File(
+//      "C:\\Users\\Paul\\workspace\\JUGGLERS_YODLE\\src\\org\\benthumb\\yodle\\test\\jugglefest_sample.txt");
+  
   static File dataFile = new File(
-      "C:\\Users\\Paul\\workspace\\JUGGLERS_YODLE\\src\\org\\benthumb\\yodle\\test\\jugglefest_sample.txt");
+      "C:\\Users\\Dolores\\Documents\\GitHub\\JUGGLERS_YODLE_BETA\\src\\org\\benthumb\\yodle\\jugglefest_sample.txt");
 
   // ** Logging **
   static Logger logMsg = Logger.getLogger("Yodle");
@@ -114,7 +117,12 @@ public class Yodle {
         } else {
           ++fNumberOfStoredScores;
         }
-        fInitializedListOfJugglers.add(jugglerData);
+        try {
+          fInitializedListOfJugglers.add((JugglerDataContainer)jugglerData.clone());
+        } catch (CloneNotSupportedException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
       }
     }
     logMsg.log(java.util.logging.Level.INFO,"*** Scores: " + Utilities.arrayToString(fStoredScores));
@@ -325,6 +333,18 @@ public class Yodle {
           jDC.setAssignedCircuit(currCircuit);
         }
       }
+    }
+  }
+  
+  public static int testRecursive(int i){
+    logMsg.log(java.util.logging.Level.INFO, "We here right now: " + i);
+    if(i == 100){
+      logMsg.log(java.util.logging.Level.INFO, "reached our goal: " + i);
+      return i;
+    }else if(i > 100 && i < 150){
+      return i;
+    } else {
+      return testRecursive(++i);
     }
   }
 }

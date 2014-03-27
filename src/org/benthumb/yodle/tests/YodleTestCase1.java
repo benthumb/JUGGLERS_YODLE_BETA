@@ -64,6 +64,7 @@ public class YodleTestCase1 {
       System.out.println("count: " + I3);
       I3++;
     }
+    Yodle.testRecursive(13);
     // fTestResult = sortListOfLists(fTestResult);  
   }
 }
